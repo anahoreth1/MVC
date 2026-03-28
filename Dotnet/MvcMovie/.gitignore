@@ -1,0 +1,33 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET specific
+appsettings.Development.json
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Dotnet tools
+.dotnet/
+
+# Coverage / test results
+TestResults/
+coverage/
+
+# Publish output
+publish/
