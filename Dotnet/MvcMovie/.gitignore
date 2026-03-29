@@ -31,7 +31,3 @@ coverage/
 
 # Publish output
 publish/
-
-
-# DB
-*.db*
