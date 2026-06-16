@@ -3,6 +3,8 @@ name: Deploy Frontend to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'Project/**'
 
 permissions:
   contents: read
@@ -29,17 +31,17 @@ jobs:
           node-version: 20
 
       - name: Install
-        working-directory: frontend
+        working-directory: Project/frontend
         run: npm install
 
       - name: Build
-        working-directory: frontend
+        working-directory: Project/frontend
         run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: frontend/dist
+          path: Project/frontend/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
