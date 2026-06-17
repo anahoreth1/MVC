@@ -48,7 +48,7 @@ Przykład backendu po uruchomieniu:
 Przed uruchomieniem frontendu lokalnie należy utworzyć plik `.env` w folderze `frontend` na podstawie pliku `.env.example`.
 
 ```
-cd frontend
+cd Projekt/frontend
 npm install
 npm run dev
 ```
@@ -60,11 +60,10 @@ Przykład frontendu po uruchomieniu:
 
 ### 3. Uruchomienie backendu przez Docker
 
-Uruchomienie backendu przez Docker nie jest wymagane do działania projektu.  
-Jest to jedynie dodatkowa możliwość uruchomienia aplikacji w kontenerze.
+Jest możliwość uruchomienia aplikacji w kontenerze:
 
 ```bash
-cd backend/auction_system
+cd Projekt/backend/auction_system
 docker build -t auction-backend .
 docker run -p 8000:8000 auction-backend
 ```
@@ -89,5 +88,23 @@ Przykład backendu po uruchomieniu przez Docker:
 
 GitHub Actions realizuje automatyczne wdrożenie: każdy commit do `main` aktualizuje backend i frontend w chmurze po następnych linkach:
 
-- 🔗 Backend (API): TBA
-- 🔗 Frontend: TBA
+- 🔗 Frontend: https://anahoreth1.github.io/MVC/
+
+- 🔗 Backend (API): (https://mvc-9x30.onrender.com)
+
+Przykład backendu po uruchomieniu:
+
+* Otwórz stronę https://mvc-9x30.onrender.com/api/users/
+* Do pola **Content** dodaj:
+
+```json
+{
+  "email": "test@example.com",
+  "name": "John Doe",
+  "password": "12345678"
+}
+```
+* Naciśnij "Post"
+
+
+

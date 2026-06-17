@@ -10,7 +10,7 @@ import RegisterPage from "./pages/RegisterPage"
 function App() {
   return (
     <UserProvider>
-      <BrowserRouter basename="/REST_Project">
+      <BrowserRouter basename="/MVC">
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
