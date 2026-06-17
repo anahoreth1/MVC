@@ -1,34 +1,73 @@
-# Systemu Aukcyjny
+# System Aukcyjny
+
+## Spis treści
+
+1. Opis projektu
+2. Funkcjonalności
+3. Technologie
+4. Instrukcja uruchomienia lokalnego
+5. Uruchomienie backendu przez Docker
+6. Link do aplikacji w chmurze
+7. Dodatkowe funkcjonalności
+
+## 1. Opis projektu
+
+Projekt przedstawia system aukcyjny oparty na architekturze REST API. Jest to platforma internetowa umożliwiająca użytkownikom rejestrację i zarządzanie własnym kontem, a także tworzenie i publikowanie aukcji przedmiotów przeznaczonych na sprzedaż.
+
+Użytkownicy mogą przeglądać dostępne oferty, wyświetlać szczegóły aukcji oraz składać własne oferty cenowe w ramach licytacji.
 
 
-Celem projektu jest implementacja rozproszonego systemu aukcyjnego opartego o architekturę REST, umożliwiającego komunikację między frontendem i backendem poprzez API.
+## 2. Funkcjonalności
 
+### Użytkownicy
 
-## Technologie
+* rejestracja użytkownika
+* pobieranie danych użytkownika
+* edycja użytkownika
+* usuwanie użytkownika
 
-- Backend: Django REST Framework  
-- Frontend: React  
-- Baza danych: SQLite
-- Dokumentacja API: (będzie dodano)
-- Docker: używany do uruchamiania backendu  
-- Wdrożenie w chmurze:
-  - backend: Render
-  - frontend: GitHub Pages  
+### Aukcje
 
- 
+* tworzenie aukcji
+* edycja aukcji
+* usuwanie aukcji
+* przeglądanie listy aukcji
+* filtrowanie po kategorii i statusie
+* pobieranie szczegółów aukcji
 
-## Uruchomienie lokalne
+### Licytacja
 
-### 1. Backend
+* składanie ofert (bid)
+* walidacja wysokości oferty
+* blokada licytacji po zakończeniu aukcji
+* przechowywanie historii ofert
+
+## 3. Technologie
+
+* Backend: Django
+* Frontend: React
+* Baza danych: SQLite
+* Docker: używany do uruchamiania backendu
+* Wdrożenie w chmurze:
+
+  * backend: Render
+  * frontend: GitHub Pages
+
+## 4. Instrukcja uruchomienia lokalnego
+
+### 4.1. Backend
 
 ```bash
-cd backend/auction_system
+cd Projekt/backend/auction_system
+# instalacja zależności
 pip install -r requirements.txt
+# migracje
 python manage.py migrate
+# uruchomienie
 python manage.py runserver
 ```
 
-Przykład backendu po uruchomieniu:
+Przykład działania backendu po uruchomieniu:
 
 * Otwórz stronę http://127.0.0.1:8000/api/users/
 * Do pola **Content** dodaj:
@@ -40,27 +79,27 @@ Przykład backendu po uruchomieniu:
   "password": "12345678"
 }
 ```
-* Naciśnij "Post"
 
+* Naciśnij „POST”.
 
-### 2. Frontend
+### 4.2. Frontend
 
 Przed uruchomieniem frontendu lokalnie należy utworzyć plik `.env` w folderze `frontend` na podstawie pliku `.env.example`.
 
-```
+```bash
 cd Projekt/frontend
 npm install
 npm run dev
 ```
 
-Przykład frontendu po uruchomieniu:
-* Otwórz stronę http://localhost:5173/REST_Project/
-* Sprawdź, czy frontend działa poprawnie
+Przykład działania frontendu po uruchomieniu:
 
+* Otwórz stronę http://localhost:5173/MVC
+* Sprawdź, czy frontend działa poprawnie.
 
-### 3. Uruchomienie backendu przez Docker
+## 5. Uruchomienie backendu przez Docker
 
-Jest możliwość uruchomienia aplikacji w kontenerze:
+Istnieje możliwość uruchomienia aplikacji w kontenerze Docker:
 
 ```bash
 cd Projekt/backend/auction_system
@@ -68,7 +107,7 @@ docker build -t auction-backend .
 docker run -p 8000:8000 auction-backend
 ```
 
-Przykład backendu po uruchomieniu przez Docker:
+Przykład działania backendu po uruchomieniu przez Docker:
 
 * Otwórz stronę:
   http://127.0.0.1:8000/api/users/
@@ -82,17 +121,19 @@ Przykład backendu po uruchomieniu przez Docker:
   "password": "12345678"
 }
 ```
-* Naciśnij "Post"
 
-## Linki do chmurzy
+* Naciśnij „POST”.
 
-GitHub Actions realizuje automatyczne wdrożenie: każdy commit do `main` aktualizuje backend i frontend w chmurze po następnych linkach:
+## 6. Link do aplikacji w chmurze
 
-- 🔗 Frontend: https://anahoreth1.github.io/MVC/
+GitHub Actions realizuje automatyczne wdrażanie aplikacji (workflow dostępny tutaj: [link](https://github.com/anahoreth1/MVC/blob/main/.github/workflows/deploy.yml)). 
 
-- 🔗 Backend (API): (https://mvc-9x30.onrender.com)
+Każdy commit do gałęzi `main` powoduje automatyczną aktualizację backendu i frontendu w chmurze.
 
-Przykład backendu po uruchomieniu:
+* Frontend: https://anahoreth1.github.io/MVC/
+* Backend (API): https://mvc-9x30.onrender.com
+
+Przykład działania backendu w chmurze:
 
 * Otwórz stronę https://mvc-9x30.onrender.com/api/users/
 * Do pola **Content** dodaj:
@@ -104,7 +145,17 @@ Przykład backendu po uruchomieniu:
   "password": "12345678"
 }
 ```
-* Naciśnij "Post"
 
+* Naciśnij „POST”.
 
+## 7. Dodatkowe funkcjonalności
 
+W projekcie zostały również zrealizowane następujące elementy:
+
+* Testy jednostkowe Django dla modułów auctions i users. Testy są automatycznie uruchamiane przy każdym pushu do GitHuba.
+
+* Walidacja po stronie serwera oraz klienta, np. sprawdzanie wymaganych pól i poprawności formatów danych (np., adres e-mail użytkowników).
+
+* Filtrowanie aukcji według kategorii oraz statusu.
+
+* System logowania użytkowników z wykorzystaniem hasła.
