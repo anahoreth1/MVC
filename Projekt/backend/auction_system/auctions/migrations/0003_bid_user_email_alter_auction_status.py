@@ -4,20 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('auctions', '0002_alter_auction_starting_price_bid'),
+        ("auctions", "0002_alter_auction_starting_price_bid"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bid',
-            name='user_email',
-            field=models.EmailField(default='my@email.com', max_length=254),
+            model_name="bid",
+            name="user_email",
+            field=models.EmailField(default="my@email.com", max_length=254),
         ),
         migrations.AlterField(
-            model_name='auction',
-            name='status',
-            field=models.CharField(choices=[('active', 'Active'), ('ended', 'Ended'), ('scheduled', 'Scheduled')], default='scheduled', max_length=20),
+            model_name="auction",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("active", "Active"),
+                    ("ended", "Ended"),
+                    ("scheduled", "Scheduled"),
+                ],
+                default="scheduled",
+                max_length=20,
+            ),
         ),
     ]

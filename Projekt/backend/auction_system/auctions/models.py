@@ -4,7 +4,11 @@ from django.utils import timezone
 
 class Auction(models.Model):
     # Dostępne statusy aukcji
-    STATUS_CHOICES = [("active", "Active"), ("ended", "Ended"), ("scheduled", "Scheduled")]
+    STATUS_CHOICES = [
+        ("active", "Active"),
+        ("ended", "Ended"),
+        ("scheduled", "Scheduled"),
+    ]
 
     # Nazwa przedmiotu
     name = models.CharField(max_length=255)
@@ -31,7 +35,9 @@ class Auction(models.Model):
     owner_id = models.IntegerField()
 
     # Status aukcji
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="scheduled")
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="scheduled"
+    )
 
     def update_status(self):
         now = timezone.now()

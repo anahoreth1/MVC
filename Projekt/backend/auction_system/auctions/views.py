@@ -51,9 +51,7 @@ class BidListCreateView(APIView):
     def get(self, request, auction_id):
         auction = get_object_or_404(Auction, id=auction_id)
 
-        bids = Bid.objects.filter(
-            auction=auction
-        ).order_by("-created_at")
+        bids = Bid.objects.filter(auction=auction).order_by("-created_at")
 
         serializer = BidSerializer(bids, many=True)
 
@@ -75,14 +73,14 @@ class BidListCreateView(APIView):
         if auction.status != "active":
             return Response(
                 {"detail": "Aukcja nie jest aktywna."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # oferta za niska
         if amount <= auction.current_price:
             return Response(
                 {"detail": "Oferta musi być wyższa niż aktualna cena."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         bid = serializer.save(auction=auction)

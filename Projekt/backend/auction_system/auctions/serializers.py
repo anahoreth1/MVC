@@ -22,6 +22,4 @@ class BidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bid
         fields = ["id", "amount", "user_email", "created_at"]
-        extra_kwargs = {
-            "user_email": {"required": False}
-        }
+        extra_kwargs = {"user_email": {"required": False}}

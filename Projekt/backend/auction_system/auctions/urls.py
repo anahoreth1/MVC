@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import BidListCreateView, AuctionDetailView, AuctionListCreateView
+from .views import AuctionDetailView, AuctionListCreateView, BidListCreateView
 
 urlpatterns = [
     path("auctions/", AuctionListCreateView.as_view(), name="auction-list-create"),
