@@ -7,7 +7,7 @@ from .models import User
 from .serializers import UserSerializer
 
 
-class UserCreateView(APIView):
+class UserListCreateView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data) 
         if serializer.is_valid():
@@ -22,7 +22,7 @@ class UserCreateView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserCreateViewById(APIView):
+class UserDetailView(APIView):
     def get(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user)
@@ -45,7 +45,7 @@ class UserCreateViewById(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class LoginView(APIView):
+class UserLoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")

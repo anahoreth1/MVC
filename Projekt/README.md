@@ -21,26 +21,29 @@ Użytkownicy mogą przeglądać dostępne oferty, wyświetlać szczegóły aukcj
 
 ### Użytkownicy
 
-* rejestracja użytkownika
-* pobieranie danych użytkownika
-* edycja użytkownika
-* usuwanie użytkownika
+* `POST /users` – rejestracja użytkownika
+* `POST /login` – logowanie użytkownika
+* `GET /users` – pobieranie listy użytkowników
+* `GET /users/{id}` – pobieranie danych konkretnego użytkownika
+* `PUT /users/{id}` – edycja danych użytkownika
+* `DELETE /users/{id}` – usuwanie użytkownika
 
 ### Aukcje
 
-* tworzenie aukcji
-* edycja aukcji
-* usuwanie aukcji
-* przeglądanie listy aukcji
-* filtrowanie po kategorii i statusie
-* pobieranie szczegółów aukcji
+* `POST /auctions` – tworzenie aukcji
+* `GET /auctions` – pobieranie listy aukcji
+* `GET /auctions/{id}` – pobieranie szczegółów aukcji
+* `PUT /auctions/{id}` – edycja aukcji
+* `DELETE /auctions/{id}` – usuwanie aukcji
+* `GET /auctions?category=...` – filtrowanie po kategorii
+* `GET /auctions?status=...` – filtrowanie po statusie
 
 ### Licytacja
 
-* składanie ofert (bid)
-* walidacja wysokości oferty
-* blokada licytacji po zakończeniu aukcji
-* przechowywanie historii ofert
+* `POST /auctions/{id}/bids` – składanie oferty
+* walidacja wysokości oferty (oferta musi być wyższa od aktualnej najwyższej oferty)
+* blokada składania ofert po zakończeniu aukcji
+* przechowywanie historii ofert dla każdej aukcji
 
 ## 3. Technologie
 
@@ -159,3 +162,5 @@ W projekcie zostały również zrealizowane następujące elementy:
 * Filtrowanie aukcji według kategorii oraz statusu.
 
 * System logowania użytkowników z wykorzystaniem hasła.
+
+* Automatyczna dokumentacja API wygenerowana przy użyciu drf-spectacular (Swagger UI dostępny pod adresem `/api/docs/`).

@@ -7,11 +7,15 @@ from .models import Auction
 from .serializers import AuctionSerializer, BidSerializer
 
 
-# Widok do wyświetlania listy aukcji i dodawanie nowych
+# Obsługa `POST /auctions`, `GET /auctions` (oraz z filtrowaniem)
 class AuctionListCreateView(generics.ListCreateAPIView):
     serializer_class = AuctionSerializer
 
     def get_queryset(self):
+
+        for auction in Auction.objects.all():
+            auction.update_status()
+
         queryset = Auction.objects.all()
 
         # Pobranie parametrów filtrowania z adresu URL
@@ -30,15 +34,25 @@ class AuctionListCreateView(generics.ListCreateAPIView):
 
 
 # Widok do pobierania, edycji i usuwania jednej aukcji
+# (obsługa `GET /auctions/{id}`, `PUT /auctions/{id}`, `DELETE /auctions/{id}`)
 class AuctionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
 
+    def get_object(self):
+        auction = super().get_object()
+        auction.update_status()
+        return auction
+
 
 # Widok do składania ofert
-class AuctionBiddingView(APIView):
+# (obsługa `POST /auctions/{id}/bids`)
+class BidCreateView(APIView):
     def post(self, request, auction_id):
         auction = get_object_or_404(Auction, id=auction_id)
+
+        auction.update_status()
+
         serializer = BidSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -46,7 +60,7 @@ class AuctionBiddingView(APIView):
 
         amount = serializer.validated_data["amount"]
 
-        if auction.status == "ended":
+        if auction.status != "active":
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         if amount < 0 or amount < auction.current_price:
