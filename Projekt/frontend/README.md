@@ -1,3 +1,3 @@
 # React + Vite
 
-This frontend app uses React working in Vite with HMR and some ESLint rules.
+Frontend aplikacja React z Vite, działająca z HMR i podstawowymi regułami ESLint.
