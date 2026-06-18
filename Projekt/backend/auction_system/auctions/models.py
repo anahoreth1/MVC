@@ -54,7 +54,8 @@ class Auction(models.Model):
 class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    user_email = models.EmailField(default="my@email.com")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.auction} - {self.amount}"
+        return f"{self.user_email} - {self.amount}"

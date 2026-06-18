@@ -21,5 +21,7 @@ class AuctionSerializer(serializers.ModelSerializer):
 class BidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bid
-        fields = "__all__"
-        read_only_fields = ["auction"]
+        fields = ["id", "amount", "user_email", "created_at"]
+        extra_kwargs = {
+            "user_email": {"required": False}
+        }

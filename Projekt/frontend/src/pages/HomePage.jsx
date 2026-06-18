@@ -23,6 +23,7 @@ function HomePage() {
   })
   const [formMessage, setFormMessage] = useState("")
   const [createMessage, setCreateMessage] = useState("")
+  const [auctionBids, setAuctionBids] = useState({})
 
   const categories = useMemo(() => {
     const allCategories = auctions.map((auction) => auction.category)
@@ -59,6 +60,23 @@ function HomePage() {
     return () => clearTimeout(timer)
   }, [createMessage, formMessage])
 
+  const fetchAuctionBids = async (auctionList) => {
+    const bidsByAuction = {}
+
+    await Promise.all(
+      auctionList.map(async (auction) => {
+        try {
+          const response = await api.get(`/auctions/${auction.id}/bids/`)
+          bidsByAuction[auction.id] = response.data
+        } catch (err) {
+          bidsByAuction[auction.id] = []
+        }
+      })
+    )
+
+    setAuctionBids(bidsByAuction)
+  }
+
   const fetchAuctions = async () => {
     setLoading(true)
     setError(null)
@@ -70,6 +88,7 @@ function HomePage() {
 
       const response = await api.get("/auctions/", { params })
       setAuctions(response.data)
+      await fetchAuctionBids(response.data)
     } catch (err) {
       setError("Nie udało się pobrać aukcji.")
     } finally {
@@ -94,7 +113,10 @@ function HomePage() {
     }
 
     try {
-      await api.post(`/auctions/${auctionId}/bids/`, { amount })
+      await api.post(`/auctions/${auctionId}/bids/`, {
+        amount,
+        user_email: currentUser.email
+      })
       setFormMessage("Oferta została przyjęta.")
       fetchAuctions()
       setBidAmounts((prev) => ({ ...prev, [auctionId]: "" }))
@@ -332,6 +354,25 @@ function HomePage() {
                         : "Aukcja jeszcze się nie rozpoczęła."}
                     </p>
                   )}
+
+                  <div style={styles.bidHistory}>
+                    <h3>Historia ofert</h3>
+                    {auctionBids[auction.id] && auctionBids[auction.id].length > 0 ? (
+                      <ul style={styles.bidHistoryList}>
+                        {auctionBids[auction.id].map((bid) => (
+                          <li key={bid.id} style={styles.bidHistoryItem}>
+                            <div style={styles.bidHistoryMeta}>
+                              <span>{new Date(bid.created_at).toLocaleString()}</span>
+                              <span style={styles.bidHistoryEmail}>{bid.user_email}</span>
+                            </div>
+                            <strong style={styles.bidHistoryAmount}>{bid.amount}</strong>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p style={styles.noBids}>Brak ofert w historii.</p>
+                    )}
+                  </div>
                 </article>
               ))
             )}
@@ -463,6 +504,25 @@ function HomePage() {
                             >
                               Usuń
                             </button>
+                          </div>
+
+                          <div style={styles.bidHistory}>
+                            <h3>Historia ofert</h3>
+                            {auctionBids[auction.id] && auctionBids[auction.id].length > 0 ? (
+                              <ul style={styles.bidHistoryList}>
+                                {auctionBids[auction.id].map((bid) => (
+                                  <li key={bid.id} style={styles.bidHistoryItem}>
+                                    <div style={styles.bidHistoryMeta}>
+                                      <span>{new Date(bid.created_at).toLocaleString()}</span>
+                                      <span style={styles.bidHistoryEmail}>{bid.user_email}</span>
+                                    </div>
+                                    <strong style={styles.bidHistoryAmount}>{bid.amount}</strong>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p style={styles.noBids}>Brak ofert w historii.</p>
+                            )}
                           </div>
                         </>
                       )}
@@ -666,6 +726,48 @@ const styles = {
     padding: "10px",
     borderRadius: "8px",
     border: "1px solid #fde68a"
+  },
+  bidHistory: {
+    marginTop: "16px",
+    padding: "14px",
+    background: "rgba(236, 253, 245, 0.85)",
+    borderRadius: "10px",
+    border: "1px solid #d1fae5"
+  },
+  bidHistoryList: {
+    listStyle: "none",
+    margin: 0,
+    padding: 0,
+    display: "grid",
+    gap: "10px"
+  },
+  bidHistoryItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: "12px",
+    padding: "10px 0",
+    borderBottom: "1px solid #eee",
+  },
+  bidHistoryMeta: {
+    display: "grid",
+    gap: "4px",
+    minWidth: 0,
+  },
+  bidHistoryEmail: {
+    fontSize: "0.95rem",
+    color: "var(--text-secondary)",
+    overflowWrap: "anywhere"
+  },
+  bidHistoryAmount: {
+    marginTop: "4px",
+    fontWeight: "700",
+    color: "var(--text)",
+    whiteSpace: "nowrap"
+  },
+  noBids: {
+    margin: 0,
+    color: "var(--text-secondary)"
   },
   bidRow: {
     display: "flex",
