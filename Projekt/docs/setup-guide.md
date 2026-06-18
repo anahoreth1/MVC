@@ -114,4 +114,11 @@ python manage.py test auctions
 
 ## Cloud
 
-Projekt może być uruchamiany także w chmurze. Frontend może być publikowany przez GitHub Pages, a backend przez Render. Lokalne adresy `127.0.0.1` oraz `localhost` należy wtedy zastąpić adresami usług wdrożonych w chmurze.
+Projekt jest również uruchomiony w chmurze.
+
+Frontend jest publikowany za pomocą GitHub Pages pod adresem:
+https://anahoreth1.github.io/MVC/
+
+Backend jest publikowany za pomocą serwisu [Render](https://render.com/) pod adresem:
+https://mvc-9x30.onrender.com/
+

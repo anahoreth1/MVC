@@ -1,8 +1,8 @@
-#Architecture
+# Architecture
 
 
 
-### Backend
+## Backend
 
 Backend został przygotowany w Django oraz Django REST Framework. Jego głównym zadaniem jest udostępnianie REST API, z którego korzysta frontend. API umożliwia obsługę użytkowników, aukcji oraz składanie ofert w licytacjach.
 
@@ -10,11 +10,6 @@ Backend przyjmuje żądania HTTP, waliduje dane wejściowe, wykonuje logikę biz
 
 Kod backendu jest podzielony na aplikacje Django. Aplikacja `users` odpowiada za operacje związane z użytkownikami, takie jak dodawanie, pobieranie, edycja i usuwanie użytkowników. Aplikacja `auctions` odpowiada za zarządzanie aukcjami oraz obsługę licytacji.
 
-Dane są zapisywane w bazie SQLite. Komunikacja z bazą odbywa się przez Django ORM, dzięki czemu modele Django reprezentują tabele w bazie danych.
-
-Typowy przepływ żądania w backendzie wygląda następująco:
-
-Frontend → URL routing → widok API → serializer → model/baza danych → odpowiedź JSON
 
 
 
@@ -70,6 +65,4 @@ Projekt wykorzystuje GitHub Actions do automatyzacji wybranych zadań związanyc
 
 Frontend może być publikowany przez GitHub Pages. Workflow GitHub Actions buduje aplikację frontendową i publikuje wygenerowane pliki statyczne jako stronę projektu.
 
-Backend może być wdrażany na zewnętrznej platformie chmurowej, np. Render. Wersja chmurowa backendu udostępnia te same endpointy API co środowisko lokalne, ale pod publicznym adresem URL.
-
-Lokalnie frontend i backend uruchamiane są osobno. Frontend komunikuje się z backendem przez REST API.
+Backend jest wdrażany na zewnętrznej platformie chmurowej [Render](https://render.com/). Wersja chmurowa backendu udostępnia te same endpointy API co środowisko lokalne, ale pod publicznym adresem URL.

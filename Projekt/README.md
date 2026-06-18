@@ -16,6 +16,7 @@ Projekt przedstawia system aukcyjny oparty na architekturze REST API. Jest to pl
 
 Użytkownicy mogą przeglądać dostępne oferty, wyświetlać szczegóły aukcji oraz składać własne oferty cenowe w ramach licytacji.
 
+Szczegółową dokumentację projektu znajduje się w folderze [docs](https://github.com/anahoreth1/MVC/tree/main/Projekt/docs).
 
 ## 2. Funkcjonalności
 

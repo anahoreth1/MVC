@@ -193,7 +193,6 @@ Projekt posiada automatycznie generowaną dokumentację API przy użyciu Swagger
 |---|---|---|
 | Swagger UI | `/api/docs/` | Interaktywna dokumentacja API. |
 | OpenAPI Schema | `/api/schema/` | Surowy schemat OpenAPI. |
-| ReDoc | `/api/redoc/` | Alternatywny widok dokumentacji API. |
 
 Swagger UI pozwala przeglądać endpointy, sprawdzać wymagane pola oraz testować zapytania bezpośrednio z poziomu przeglądarki.
 
