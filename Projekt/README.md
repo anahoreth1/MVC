@@ -42,9 +42,7 @@ Szczegółową dokumentację projektu znajduje się w folderze [docs](https://gi
 ### Licytacja
 
 * `POST /auctions/{id}/bids` – składanie oferty
-* walidacja wysokości oferty (oferta musi być wyższa od aktualnej najwyższej oferty)
-* blokada składania ofert po zakończeniu aukcji
-* przechowywanie historii ofert dla każdej aukcji
+* `GET /auctions/{id}/bids` -  pobieranie historii ofert dla aukcji
 
 ## 3. Technologie
 
