@@ -9,12 +9,26 @@ from .serializers import UserSerializer
 
 class UserListCreateView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data) 
+        email = request.data.get("email")
+
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {"detail": "User with this email already exists."},
+                status=status.HTTP_409_CONFLICT,
+            )
+
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = serializer.save()
+            return Response(
+                UserSerializer(user).data,
+                status=status.HTTP_201_CREATED,
+            )
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     def get(self, request):
         users = User.objects.all()

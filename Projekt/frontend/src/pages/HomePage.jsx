@@ -37,9 +37,27 @@ function HomePage() {
     return filtered
   }, [auctions, activeTab, currentUser])
 
+  const getStatusBadgeStyle = (status) => {
+    if (status === "active") return styles.activeStatus
+    if (status === "ended") return styles.endedStatus
+    if (status === "scheduled") return styles.scheduledStatus
+    return styles.status
+  }
+
   useEffect(() => {
     fetchAuctions()
   }, [categoryFilter, statusFilter])
+
+  useEffect(() => {
+    if (!createMessage && !formMessage) return
+
+    const timer = setTimeout(() => {
+      setCreateMessage("")
+      setFormMessage("")
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [createMessage, formMessage])
 
   const fetchAuctions = async () => {
     setLoading(true)
@@ -251,6 +269,7 @@ function HomePage() {
                 <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                   <option value="">Wszystkie</option>
                   <option value="active">Active</option>
+                  <option value="scheduled">Scheduled</option>
                   <option value="ended">Ended</option>
                 </select>
               </label>
@@ -267,7 +286,7 @@ function HomePage() {
                 <article key={auction.id} style={styles.card}>
                   <div style={styles.cardHeader}>
                     <h2>{auction.name}</h2>
-                    <span style={styles.status}>{auction.status}</span>
+                    <span style={{ ...styles.status, ...getStatusBadgeStyle(auction.status) }}>{auction.status}</span>
                   </div>
                   <p>{auction.description}</p>
                   <p>
@@ -294,18 +313,25 @@ function HomePage() {
                       placeholder="Kwota"
                       value={bidAmounts[auction.id] || ""}
                       onChange={(e) => handleBidChange(auction.id, e.target.value)}
-                      disabled={auction.status === "ended"}
+                      disabled={auction.status !== "active"}
                       style={styles.bidInput}
                     />
                     <button
                       type="button"
                       onClick={() => handleBidSubmit(auction.id)}
-                      disabled={auction.status === "ended"}
+                      disabled={auction.status !== "active"}
                       style={styles.bidButton}
                     >
                       Złóż ofertę
                     </button>
                   </div>
+                  {(auction.status === "ended" || auction.status === "scheduled") && (
+                    <p style={styles.statusNotice}>
+                      {auction.status === "ended"
+                        ? "Aukcja zakończona. Nie można składać ofert."
+                        : "Aukcja jeszcze się nie rozpoczęła."}
+                    </p>
+                  )}
                 </article>
               ))
             )}
@@ -406,7 +432,7 @@ function HomePage() {
                         <>
                           <div style={styles.cardHeader}>
                             <h2>{auction.name}</h2>
-                            <span style={styles.status}>{auction.status}</span>
+                            <span style={{ ...styles.status, ...getStatusBadgeStyle(auction.status) }}>{auction.status}</span>
                           </div>
                           <p>{auction.description}</p>
                           <p>
@@ -620,6 +646,26 @@ const styles = {
     background: "var(--border)",
     textTransform: "capitalize",
     fontSize: "0.9rem"
+  },
+  activeStatus: {
+    background: "#d1fae5",
+    color: "#065f46"
+  },
+  scheduledStatus: {
+    background: "#e0f2fe",
+    color: "#0c4a6e"
+  },
+  endedStatus: {
+    background: "#fee2e2",
+    color: "#991b1b"
+  },
+  statusNotice: {
+    marginTop: "10px",
+    color: "#92400e",
+    backgroundColor: "#fef3c7",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "1px solid #fde68a"
   },
   bidRow: {
     display: "flex",
