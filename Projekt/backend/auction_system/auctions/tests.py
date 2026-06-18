@@ -139,7 +139,7 @@ class BiddingTests(APITestCase):
             f"/api/auctions/{self.auction.id}/bids/", data, format="json"
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         self.assertTrue(
             Bid.objects.filter(auction=self.auction, amount="150.00").exists()
@@ -170,7 +170,7 @@ class BiddingTests(APITestCase):
             f"/api/auctions/{self.auction.id}/bids/", data, format="json"
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         self.auction.refresh_from_db()
 
