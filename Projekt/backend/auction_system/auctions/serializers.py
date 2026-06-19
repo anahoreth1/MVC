@@ -17,6 +17,17 @@ class AuctionSerializer(serializers.ModelSerializer):
         validated_data["current_price"] = validated_data["starting_price"]
         return Auction.objects.create(**validated_data)
 
+    def validate(self, data):
+        start_date = data.get("start_date")
+        end_date = data.get("end_date")
+
+        if start_date and end_date and start_date >= end_date:
+            raise serializers.ValidationError(
+                "Data rozpoczęcia aukcji musi być wcześniejsza niż data zakończenia."
+            )
+
+        return data
+
 
 class BidSerializer(serializers.ModelSerializer):
     class Meta:
